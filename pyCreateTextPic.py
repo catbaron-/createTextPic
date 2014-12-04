@@ -1,0 +1,223 @@
+import os
+import Image, ImageFont, ImageDraw
+from transPic import *
+
+# font list
+fonts = [
+    "Abadi MT Condensed Extra Bold",
+    "Abadi MT Condensed Light",
+    "Andale Mono",
+    "Arial Black",
+    "Arial Bold Italic.ttf",
+    "Arial Bold.ttf",
+    "Arial Italic.ttf",
+    "Arial Narrow",
+    "Arial Rounded Bold",
+    "Arial.ttf",
+    "Baskerville Old Face",
+    "Batang.ttf",
+    "Bauhaus 93",
+    "Bell MT",
+    "Bernard MT Condensed",
+    "Book Antiqua",
+    "Bookman Old Style",
+    "Bookshelf Symbol 7.ttf",
+    "Braggadocio",
+    "Britannic Bold",
+    "Brush Script.ttf",
+    "Calibri Bold Italic.ttf",
+    "Calibri Bold.ttf",
+    "Calibri Italic.ttf",
+    "Calibri.ttf",
+    "Calibril.ttf",
+    "Calisto MT",
+    "Cambria Bold Italic.ttf",
+    "Cambria Bold.ttf",
+    "Cambria Italic.ttf",
+    "Cambria Math.ttf",
+    "Cambria.ttf",
+    "Candara Bold Italic.ttf",
+    "Candara Bold.ttf",
+    "Candara Italic.ttf",
+    "Candara.ttf",
+    "Century",
+    "Century Gothic",
+    "Century Schoolbook",
+    "Colonna",
+    "Comic Sans MS",
+    "Consolas Bold Italic.ttf",
+    "Consolas Bold.ttf",
+    "Consolas Italic.ttf",
+    "Consolas.ttf",
+    "Constantia Bold Italic.ttf",
+    "Constantia Bold.ttf",
+    "Constantia Italic.ttf",
+    "Constantia.ttf",
+    "Cooper Black",
+    "Copperplate Gothic Bold",
+    "Copperplate Gothic Light",
+    "Corbel Bold Italic.ttf",
+    "Corbel Bold.ttf",
+    "Corbel Italic.ttf",
+    "Corbel.ttf",
+    "Curlz MT",
+    "Desdemona",
+    "Edwardian Script ITC",
+    "Engravers MT",
+    "Eurostile",
+    "Fangsong.ttf",
+    "Footlight Light",
+    "Franklin Gothic Book Italic.ttf",
+    "Franklin Gothic Book.ttf",
+    "Franklin Gothic Medium Italic.ttf",
+    "Franklin Gothic Medium.ttf",
+    "Gabriola.ttf",
+    "Garamond",
+    "Georgia",
+    "Gill Sans MT Bold Italic.ttf",
+    "Gill Sans MT Bold.ttf",
+    "Gill Sans MT Italic.ttf",
+    "Gill Sans MT.ttf",
+    "Gill Sans Ultra Bold",
+    "Gloucester MT Extra Condensed",
+    "Goudy Old Style",
+    "Gulim.ttf",
+    "Haettenschweiler",
+    "Harrington",
+    "Impact",
+    "Imprint MT Shadow",
+    "Kaiti.ttf",
+    "Kino",
+    "Lucida Blackletter",
+    "Lucida Bright",
+    "Lucida Calligraphy",
+    "Lucida Console.ttf",
+    "Lucida Fax",
+    "Lucida Handwriting",
+    "Lucida Sans",
+    "Lucida Sans Typewriter",
+    "Lucida Sans Unicode.ttf",
+    "MS Gothic.ttf",
+    "MS Mincho.ttf",
+    "MS PGothic.ttf",
+    "MS PMincho.ttf",
+    "MS Reference Sans Serif.ttf",
+    "MS Reference Specialty.ttf",
+    "MT Extra",
+    "Marlett.ttf",
+    "Matura Script Capitals",
+    "Meiryo Bold Italic.ttf",
+    "Meiryo Bold.ttf",
+    "Meiryo Italic.ttf",
+    "Meiryo.ttf",
+    "Microsoft Yahei.ttf",
+    "MingLiU-ExtB.ttf",
+    "MingLiU.ttf",
+    "MingLiU_HKSCS-ExtB.ttf",
+    "Mistral",
+    "Modern No. 20",
+    "Monotype Corsiva",
+    "Monotype Sorts",
+    "News Gothic MT",
+    "Onyx",
+    "PMingLiU-ExtB.ttf",
+    "PMingLiU.ttf",
+    "Palatino Linotype Bold Italic.ttf",
+    "Palatino Linotype Bold.ttf",
+    "Palatino Linotype Italic.ttf",
+    "Palatino Linotype.ttf",
+    "Perpetua Bold Italic.ttf",
+    "Perpetua Bold.ttf",
+    "Perpetua Italic.ttf",
+    "Perpetua Titling MT",
+    "Perpetua.ttf",
+    "Playbill",
+    "Rockwell",
+    "Rockwell Extra Bold",
+    "STHUPO.TTF",
+    "STLITI.ttf",
+    "STXINGKA.ttf",
+    "STXINWEI.ttf",
+    "STZHONGS.ttf",
+    "SimHei.ttf",
+    "SimSun-ExtB.ttf",
+    "SimSun.ttf",
+    "Stencil",
+    "Tahoma",
+    "TaiLeb.ttf",
+    "Times New Roman Bold Italic.ttf",
+    "Times New Roman Bold.ttf",
+    "Times New Roman Italic.ttf",
+    "Times New Roman.ttf",
+    "Trebuchet MS",
+    "Tw Cen MT Bold Italic.ttf",
+    "Tw Cen MT Bold.ttf",
+    "Tw Cen MT Italic.ttf",
+    "Tw Cen MT.ttf",
+    "Verdana Bold Italic.ttf",
+    "Verdana Bold.ttf",
+    "Verdana Italic.ttf",
+    "Verdana.ttf",
+    "Wide Latin",
+    "Wingdings 2.ttf",
+    "Wingdings 3.ttf",
+    "Wingdings.ttf",
+    "himalaya.ttf",
+    "mingliu_hkscs.ttf",
+    "monbaiti.ttf",
+    "msyi.ttf",
+    "taile.ttf",
+]
+letters = [
+    "A", "B", "C", "D",
+    "E", "F", "G", "H",
+    "I", "J", "K", "L",
+    "M", "N", "O", "P",
+    "Q", "R", "S", "T",
+    "U", "V", "W", "X",
+    "Y", "Z", "a", "b",
+    "c", "d", "e", "f",
+    "g", "h", "i", "j",
+    "k", "l", "m", "n",
+    "o", "p", "q", "r",
+    "s", "t", "u", "v",
+    "w", "x", "y", "z",
+    "0", "1", "2", "3",
+    "4", "5", "6", "7",
+    "8", "9",
+]
+
+# font location
+font_url = "/Library/Fonts/Microsoft/"
+
+def createPic(l,f,seq=0):
+    # get fonts
+    img_name = l+"".join(f.split())
+    img = Image.new("RGB",(300, 200),(255,255,255))
+    draw = ImageDraw.Draw(img)
+    font = ImageFont.truetype(font_url+f,180)
+
+    #write the text into the img, with color of black
+    draw.text((120,5),l,font=font,fill="#000000")
+
+    # decide where to put the pic in
+    if l.isdigit():
+        d = l
+    elif l.isupper():
+        d = l+"1"
+    else :
+        d = l.upper()+"0"
+    iname = d+"/"+l+"_"+"".join(f.split())+".jpg"
+    print "create "+iname + "...",
+    # save the pic
+    img.save(iname)
+    print "done!"
+    transPic(iname)
+
+def main():
+    for l in letters:
+        for f in fonts:
+            createPic(l,f)
+
+if __name__ == '__main__':
+    main()
